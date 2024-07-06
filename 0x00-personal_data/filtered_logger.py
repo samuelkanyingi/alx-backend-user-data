@@ -83,3 +83,27 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         host=host,
         database=database
     )
+
+
+def main() -> None:
+    """
+    Main function that retrieves all rows in the users table and logs each row
+    with sensitive fields obfuscated.
+    """
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT name, email, phone, ssn, password, ip, last_login, user_agent FROM users;")
+
+    logger = get_logger()
+
+    for row in cursor:
+        message = ("name={}; email={}; phone={}; ssn={}; password={}; ip={}; "
+                   "last_login={}; user_agent={};").format(*row)
+        logger.info(message)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
