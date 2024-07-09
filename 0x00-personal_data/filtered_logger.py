@@ -7,6 +7,7 @@ import re
 import logging
 from typing import List, Tuple
 import mysql.connector
+from mysql.connector import connection
 import os
 
 
