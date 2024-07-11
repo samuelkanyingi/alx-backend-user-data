@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-""" module for ath class """
+""" module for auth class """
 from typing import List, TypeVar
 from flask import request
 
 
 class Auth:
+    """ authentication class """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ Method to check if authentication is required for a given path. """
         # Placeholder logic for demonstration
