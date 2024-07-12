@@ -15,14 +15,8 @@ class Auth:
             return True
         if not path.endswith('/'):
             path += '/'
-
-        for excluded_path in excluded_paths:
-            if excluded_path.endswith('*'):
-                if path.startswith(excluded_path[:-1]):
-                    return False
-            else:
-                if path == excluded_path:
-                    return False
+        if path in excluded_paths:
+            return False
         return True
 
     def authorization_header(self, request=None) -> str:
@@ -40,8 +34,8 @@ class Auth:
         # Placeholder logic for demonstration
         return None
 
-    def extract_user_credentials(self, decoded_base64_authorization_header:
-                                 str) -> (str, str):
+
+    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> (str, str):
         """ Extracts user email and password from the Base64 decoded value """
         if decoded_base64_authorization_header is None:
             return None, None
