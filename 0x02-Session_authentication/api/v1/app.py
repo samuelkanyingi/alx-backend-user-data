@@ -21,6 +21,9 @@ auth_type = os.getenv('AUTH_TYPE')
 if auth_type == 'basic_auth':
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
+elif auth_type == 'session_auth':
+    from api.v1.auth.session_auth import SessionAuth
+    auth = SessionAuth()
 else:
     from api.v1.auth.auth import Auth
     auth = Auth()
@@ -59,6 +62,7 @@ def before_request():
 
     if request.current_user is None:
         abort(403)
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
