@@ -2,6 +2,7 @@
 """ module for auth class """
 from typing import List, TypeVar
 from flask import request
+import os
 
 
 class Auth:
@@ -34,8 +35,8 @@ class Auth:
         # Placeholder logic for demonstration
         return None
 
-
-    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> (str, str):
+    def extract_user_credentials(self, decoded_base64_authorization_header:
+                                 str) -> (str, str):
         """ Extracts user email and password from the Base64 decoded value """
         if decoded_base64_authorization_header is None:
             return None, None
@@ -45,3 +46,22 @@ class Auth:
             return None, None
         email, password = decoded_base64_authorization_header.split(':', 1)
         return email, password
+
+    def session_cookie(self, request=None):
+        """
+        Returns the value of the cookie named by the variable SESSION_NAME.
+
+        Args:
+            request: The request object to extract the cookie from.
+
+        Returns:
+            str: The value of the session cookie if it exists, None otherwise.
+        """
+        if request is None:
+            return None
+
+        session_name = os.getenv('SESSION_NAME')
+        if session_name is None:
+            return None
+
+        return request.cookies.get(session_name)
