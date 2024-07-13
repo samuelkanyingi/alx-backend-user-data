@@ -4,12 +4,12 @@ from flask import jsonify, request, abort, Flask
 from api.v1.app import auth  # Import auth locally to avoid circular imports
 from models.user import User
 import os
+from api.v1.views import app_views
+
+#app = Flask(__name__)
 
 
-app = Flask(__name__)
-
-
-@app.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def session_login():
     """ session login """
     email = request.form.get('email')
@@ -20,10 +20,11 @@ def session_login():
     if not password:
         return jsonify({"error": "password missing"}), 400
 
-    user = User.search({'email': email})
-    if not user:
+    users = User.search({'email': email})
+    if not users:
         return jsonify({"error": "no user found for this email"}), 404
 
+    user = users[0]
     if not user.is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
 
