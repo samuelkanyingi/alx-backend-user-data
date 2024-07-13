@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 @app.route('/api/v1/auth_session/login', methods=['POST'], strict_slashes=False)
 def session_login():
+    """ session login """
     email = request.form.get('email')
     password = request.form.get('password')
 
